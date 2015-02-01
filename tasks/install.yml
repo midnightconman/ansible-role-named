@@ -61,6 +61,6 @@
   tags: install
 
 - name: Install Service Ubunut
-  apt: name='bind' state='present'
+  apt: name='bind9' state='present'
   when: ansible_os_family == "Debian"
   tags: install
