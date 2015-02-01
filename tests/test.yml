@@ -1,0 +1,22 @@
+---
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    named_travis_ci: true
+    named_acls:
+      public_slaves:
+        - 127.0.0.2
+    named_zones:
+      foo_bar:
+        type: master
+        allow_transfer:
+          - public_slaves
+        nameserver_in:
+          - ns1.foo.com
+          - ns2.foo.com
+        records:
+          - foo.com. IN A 127.0.0.1
+          - ns1      IN A 127.0.0.1
+  roles:
+    - named
