@@ -12,7 +12,7 @@ This runbook requires that you enable this option "error_on_undefined_vars=False
 ## Installation
 
 ``` bash
-$ ansible-galaxy install midnightconman.role-named
+$ ansible-galaxy install midnightconman.named
 ```
 
 ## Getting started
