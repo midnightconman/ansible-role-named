@@ -1,0 +1,28 @@
+---
+language: python
+python: "2.7"
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install ansible
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
+script:
+  # Syntax check
+  - "ansible-playbook -i localhost, tests/test.yml --syntax-check"
+  # Run role
+  - "ansible-playbook -i localhost, tests/test.yml --connection=local --sudo"
+  # Idempotency check
+  - >
+    ansible-playbook -i localhost, tests/test.yml --connection=local --sudo
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotency: PASS' && exit 0)
+    || (echo 'Idempotency: FAIL' && exit 1)
+  # Facts syntax check
+  - >
+    sudo cat /etc/ansible/facts.d/named.fact
+    | python -m json.tool
+    && (echo 'Facts syntax: PASS' && exit 0)
+    || (echo 'Facts syntax: FAIL' && exit 1)
