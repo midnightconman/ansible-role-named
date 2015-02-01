@@ -7,7 +7,7 @@ before_install:
 
 install:
   - pip install ansible
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; echo 'error_on_undefined_vars = False'; } >> ansible.cfg"
 
 script:
   # Syntax check
