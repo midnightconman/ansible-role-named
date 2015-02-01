@@ -60,7 +60,7 @@
   when: ansible_os_family == "RedHat"
   tags: install
 
-- name: Install Service Ubunut
+- name: Install Service Debian
   apt: name='bind9' state='present'
   when: ansible_os_family == "Debian"
   tags: install
