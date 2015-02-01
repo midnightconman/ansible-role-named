@@ -1,9 +1,9 @@
 ---
-- name: Stop named RedHat
+- name: Stop named - RedHat
   service: name={{ named_service_name }} state=stopped
   when: ansible_os_family == "RedHat"
 
-- name: Stop named Debian
+- name: Stop named - Debian
   service: name=bind9 state=stopped
   when: ansible_os_family == "Debian"
 

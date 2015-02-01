@@ -1,20 +1,41 @@
 ---
-- name: Create config File
+- name: Create config File - RedHat
   template: src='named.conf.j2' dest={{ named_conf_file_location }} owner={{ named_user }}
             group={{ named_group }} mode='0600'
-  notify: Stop named
+  when: ansible_os_family == "RedHat"
+  notify: Stop named - RedHat
 
-- name: Create included.conf File
+- name: Create included.conf File - RedHat
   template: src='included.conf.j2'  dest={{ named_conf_includes_directory }}/included.conf
             owner={{ named_user }} group={{ named_group }} mode='0600'
-  notify: Stop named
+  when: ansible_os_family == "RedHat"
+  notify: Stop named - RedHat
 
-- name: Create zone Files
+- name: Create zone Files - RedHat
   template: src='zone.j2'  dest={{ named_conf_directory }}/masters/{{ item.key | regex_replace('_', '.') }}.zone
             owner={{ named_user }} group={{ named_group }} mode='0600'
   with_dict: named_zones
-  when: named_zones_create_masters
-  notify: Stop named
+  when: named_zones_create_masters and ansible_os_family == "RedHat"
+  notify: Stop named - RedHat
+
+- name: Create config File - Debian
+  template: src='named.conf.j2' dest={{ named_conf_file_location }} owner={{ named_user }}
+            group={{ named_group }} mode='0600'
+  when: ansible_os_family == "Debian"
+  notify: Stop named - Debian
+
+- name: Create included.conf File - Debian
+  template: src='included.conf.j2'  dest={{ named_conf_includes_directory }}/included.conf
+            owner={{ named_user }} group={{ named_group }} mode='0600'
+  when: ansible_os_family == "Debian"
+  notify: Stop named - Debian
+
+- name: Create zone Files - Debian
+  template: src='zone.j2'  dest={{ named_conf_directory }}/masters/{{ item.key | regex_replace('_', '.') }}.zone
+            owner={{ named_user }} group={{ named_group }} mode='0600'
+  with_dict: named_zones
+  when: named_zones_create_masters and ansible_os_family == "Debian"
+  notify: Stop named - Debian
 
 - name: Create monit File
   template: src='monit.conf.j2'  dest={{ named_monit_conf_directory }}/named
