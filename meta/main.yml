@@ -6,10 +6,7 @@ galaxy_info:
   min_ansible_version: 1.5
 
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
-  - name: Debian
+  - name: Centos
     versions:
     - all
   categories:
