@@ -1,5 +1,5 @@
 ---
-- name: Install Dependencies
+- name: Install Dependencies RedHat
   yum: name={{ item }} state='present'
   with_items:
     - glibc
@@ -11,6 +11,20 @@
     - openssl
     - chkconfig
   when: ansible_os_family == "RedHat"
+  tags: install
+
+- name: Install Dependencies Ubuntu
+  apt: name={{ item }} state='present'
+  with_items:
+    - glibc
+    - bind-libs
+    - libcap
+    - zlib
+    - coreutils
+    - libxml2
+    - openssl
+    - chkconfig
+  when: ansible_os_family == "Ubuntu"
   tags: install
 
 - name: Create log Directory
@@ -41,7 +55,12 @@
   when: named_travis_ci is not defined
   tags: install
 
-- name: Install Service 
+- name: Install Service RedHat
   yum: name='bind' state='present'
   when: ansible_os_family == "RedHat"
+  tags: install
+
+- name: Install Service Ubunut
+  apt: name='bind' state='present'
+  when: ansible_os_family == "Ubuntu"
   tags: install
