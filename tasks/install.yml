@@ -27,6 +27,7 @@
 
 - name: Create User Group
   group: name='named' gid=25 state='present'
+  when: named_travis_ci is not defined
   tags: install
 
 - name: Add User
@@ -37,6 +38,7 @@
     home={{ named_conf_directory }}
     shell='/sbin/nologin'
     system='yes'
+  when: named_travis_ci is not defined
   tags: install
 
 - name: Install Service 
