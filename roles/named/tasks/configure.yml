@@ -1,0 +1,23 @@
+---
+- name: Create config File
+  template: src='named.conf.j2' dest={{ named_conf_file_location }} owner={{ named_user }}
+            group={{ named_group }} mode='0600'
+  notify: Stop named
+
+- name: Create included.conf File
+  template: src='included.conf.j2'  dest={{ named_conf_includes_directory }}/included.conf
+            owner={{ named_user }} group={{ named_group }} mode='0600'
+  notify: Stop named
+
+- name: Create zone Files
+  template: src='zone.j2'  dest={{ named_conf_directory }}/masters/{{ item.key | regex_replace('_', '.') }}.zone
+            owner={{ named_user }} group={{ named_group }} mode='0600'
+  with_dict: named_zones
+  when: named_zones_create_masters
+  notify: Stop named
+
+- name: Create monit File
+  template: src='monit.conf.j2'  dest={{ named_monit_conf_directory }}/named
+            owner={{ named_user }} group={{ named_group }} mode='0600 '
+  notify: Reload monit
+  when: named_monit_enable

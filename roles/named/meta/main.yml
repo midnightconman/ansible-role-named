@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Jon Campbell
+  description: A highly configurable role for BIND (named) versions >9
+  license: GNU GPLv2
+  min_ansible_version: 1.5
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - system
+
+dependencies: []

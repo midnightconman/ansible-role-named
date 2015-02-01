@@ -1,0 +1,20 @@
+; This file is generated from a template using ansible.
+;
+; {{ ansible_managed }}
+;
+; Zone file for {{ item.key | regex_replace('_', '.') }}
+$TTL {{ item.value.ttl or named_conf_zone_ttl }}
+@      {{ item.value.expire or named_conf_zone_expire}}    IN      SOA     {{ item.value.soa or named_conf_zone_soa }} (
+                {{ ansible_date_time.date | regex_replace('-', '') }}{{ ansible_date_time.time | regex_replace('^([0-9]{2}).*$', '\\1') }}	; serial, todays date+todays
+                {{ item.value.refresh or named_conf_zone_refresh }}		; refresh, seconds
+                {{ item.value.retry or named_conf_zone_retry }}		; retry, seconds
+                {{ item.value.expire or named_conf_zone_expire }}		; expire, seconds
+                {{ item.value.expire_min or named_conf_zone_expire_min }} )		; minimum, seconds
+
+{% for nameserver in item.value.nameserver_in %}
+{{ item.key | regex_replace('_', '.') }}. {{ item.value.expire }} IN NS {{ nameserver }}
+{% endfor %}
+
+{% for record in item.value.records %}
+{{ record }}
+{% endfor %}

@@ -1,0 +1,7 @@
+---
+named_zones_create_masters: False
+
+named_zones:
+  foo_com:
+    type: slave
+    master: 7.7.7.7

@@ -1,0 +1,12 @@
+# This file is generated from a template using ansible.
+#
+# {{ ansible_managed }}
+#
+
+check process named with pidfile "{{ named_pid_file }}"
+    start = "{{ named_service_file }} start"
+    stop = "{{ named_service_file }} stop"
+    if failed host 127.0.0.1 port 53 type udp protocol dns then restart
+    if cpu usage > 98% for 10 cycles then restart
+    if 5 restarts within 5 cycles then alert
+    group named

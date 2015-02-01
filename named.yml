@@ -1,0 +1,14 @@
+---
+- name: Actions Needed to Get Masters Into a Happy State
+  hosts: named_masters
+  remote_user: root
+
+  roles:
+    - named
+
+- name: Actions Needed to Get Slaves Into a Happy State
+  hosts: named_slaves
+  remote_user: root
+
+  roles:
+    - named

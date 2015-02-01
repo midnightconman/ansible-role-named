@@ -1,0 +1,39 @@
+---
+named_acls:
+  public_slaves:
+    - 8.8.8.8
+    - 9.9.9.9
+  private_slaves:
+    - 192.168.25.5
+
+named_zones:
+  foo_com:
+    type: master
+    allow_transfer:
+      - public_slaves
+    ttl: 3000
+    soa: ns1.foo.com. noc.foo.com.
+    refresh: 600
+    retry: 600
+    expire: 86400
+    expire_min: 3000
+    nameserver_in:
+      - ns1.foo.com.
+      - ns2.foo.com.
+    records:
+      - foo.com.                      IN A 208.82.118.214
+      - foo.com.                      IN MX 0 foo.com.
+      - mail                          IN CNAME foo.com.
+      - ns1                           IN A 7.7.7.7
+      - ns2                           IN A 8.8.8.8
+      - ns3                           IN A 9.9.9.9
+  private_foo_com:
+    type: master
+    allow_transfer:
+      - priavte_slaves
+    nameserver_in:
+      - ns1.foo.com.
+      - ns2.foo.com.
+    records:
+      - ns1.private.foo.com.          IN A 192.168.25.4
+      - ns2.private.foo.com.          IN A 192.168.25.5

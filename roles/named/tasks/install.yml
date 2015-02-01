@@ -1,0 +1,45 @@
+---
+- name: Install Dependencies
+  yum: name={{ item }} state='present'
+  with_items:
+    - glibc
+    - bind-libs
+    - libcap
+    - zlib
+    - coreutils
+    - libxml2
+    - openssl
+    - chkconfig
+  when: ansible_os_family == "RedHat"
+  tags: install
+
+- name: Create log Directory
+  file: path={{ named_conf_logging_file_directory }} state='directory'
+  tags: install
+
+- name: Create includes Directory
+  file: path={{ named_conf_includes_directory }} state='directory'
+  tags: install
+
+- name: Create zone masters Directory
+  file: path={{ named_conf_directory }}/masters state='directory'
+  tags: install
+
+- name: Create User Group
+  group: name='named' gid=25 state='present'
+  tags: install
+
+- name: Add User
+  user:
+    name='named'
+    uid=25
+    group='named'
+    home={{ named_conf_directory }}
+    shell='/sbin/nologin'
+    system='yes'
+  tags: install
+
+- name: Install Service 
+  yum: name='bind' state='present'
+  when: ansible_os_family == "RedHat"
+  tags: install

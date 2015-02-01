@@ -1,0 +1,17 @@
+{
+  "interfaces_ipv4": [ 
+  {% for int in named_conf_listen_on_interface %}
+    "{{ int }}"{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ],
+  "interfaces_ipv6": [ 
+  {% for int in named_conf_listen_on_v6_interface %}
+    "{{ int }}"{% if not loop.last %}
+,
+{% endif %}
+  {% endfor %}
+
+  ],
+  "port_ipv4": "{{ named_conf_listen_on_port }}",
+  "port_ipv6": "{{ named_conf_listen_on_v6_port }}"
+}

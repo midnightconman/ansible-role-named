@@ -1,0 +1,6 @@
+---
+- name: Stop named
+  service: name={{ named_service_name }} state=stopped
+
+- name: Reload monit
+  service: name={{ named_monit_service_name }} state=reloaded

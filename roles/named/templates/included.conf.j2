@@ -1,0 +1,49 @@
+# This file is generated from a template using ansible.
+#
+# {{ ansible_managed }}
+#
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
+{% if named_acls is defined %}
+{% for (key, value) in named_acls.iteritems() %}
+acl "{{ key }}" {
+{% for acls in value %}
+    {{ acls }};
+{% endfor %}
+};
+
+{% endfor %}
+{% endif %}
+
+{% if named_zones is defined %}
+#################
+# Zones - Start #
+#################
+{% for (key, value) in named_zones.iteritems() %}
+zone "{{ key | regex_replace('_', '.') }}" {
+    type {{ value.type }};
+{% if value.type == 'master' %}
+    file "/var/named/masters/{{ key | regex_replace('_', '.') }}.zone";
+    allow-update { none; };
+    allow-transfer {
+    {% for key in value.allow_transfer %}
+    {{ key }};
+    {% endfor %}
+    {% for key in value.allow_notify %}
+    {{ key }};
+    {% endfor %}
+};
+{% elif value.type == 'slave' %}
+    file "/var/named/slaves/{{ key | regex_replace('_', '.') }}.zone";
+    masters { {{ value.master }}; };
+{% endif %}
+};
+
+{% endfor %}
+###############
+# Zones - End #
+###############
+{% endif %}
+
