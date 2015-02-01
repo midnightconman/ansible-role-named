@@ -18,4 +18,4 @@
           - foo.com. IN A 127.0.0.1
           - ns1      IN A 127.0.0.1
   roles:
-    - named
+    - ansible-role-named
