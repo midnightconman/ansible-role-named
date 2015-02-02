@@ -1,0 +1,37 @@
+---
+- name: Create log Directory
+  file:
+    path={{ named_conf_logging_file_directory }}
+    state='directory'
+  tags: install
+
+- name: Create includes Directory
+  file:
+    path={{ named_conf_includes_directory }}
+    state='directory'
+  tags: install
+
+- name: Create zone masters Directory
+  file:
+    path={{ named_conf_directory }}/masters
+    state='directory'
+  tags: install
+
+- name: Create User Group
+  group:
+    name='named'
+    gid=25
+    state='present'
+  when: named_travis_ci is not defined
+  tags: install
+
+- name: Add User
+  user:
+    name='named'
+    uid=25
+    group='named'
+    home={{ named_conf_directory }}
+    shell='/sbin/nologin'
+    system='yes'
+  when: named_travis_ci is not defined
+  tags: install

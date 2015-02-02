@@ -68,3 +68,11 @@ named_conf_zone_refresh: 21600
 named_conf_zone_retry: 600
 named_conf_zone_expire: 86400
 named_conf_zone_expire_min: 3000
+named_zones:
+  foo_com:
+    nameserver_in:
+      - ns1.foo.com.
+      - ns2.foo.com.
+    records:
+      - ns1 IN A 7.7.7.7
+      - ns2 IN A 7.7.7.7

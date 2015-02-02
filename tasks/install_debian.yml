@@ -1,0 +1,22 @@
+---
+#- name: Install Dependencies Debian
+#  apt:
+#    name={{ item }}
+#    state='present'
+#  with_items:
+#    - glibc
+#    - bind-libs
+#    - libcap
+#    - zlib
+#    - coreutils
+#    - libxml2
+#    - openssl
+#    - chkconfig
+#  when: ansible_os_family == "Debian"
+#  tags: install
+
+- name: Install Service Debian
+  apt:
+    name='bind9'
+    state='present'
+  tags: install
