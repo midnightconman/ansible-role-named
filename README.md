@@ -17,9 +17,9 @@ $ ansible-galaxy install midnightconman.named
 
 ## Getting started
 
-### Installing BIND (named) on Centos 6+
+### Installing BIND (named)
 
-Installing BIND (named) and all required dependencies on Centos 6+ is very simple and can be done before configuration or individually on it's own: 
+Installing BIND (named) and all required dependencies is very simple and can be done before configuration or individually on it's own: 
 
 #### Install Only
 ``` bash
