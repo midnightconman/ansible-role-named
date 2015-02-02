@@ -7,7 +7,7 @@ This runbook requires that you enable this option "error_on_undefined_vars=False
 [![Build Status](https://travis-ci.org/midnightconman/ansible-role-named.svg?branch=master)](https://travis-ci.org/midnightconman/ansible-role-named)
 
  - Requires Ansible 1.5+
- - Compatible with most versions of RHEL/CentOS 6.x
+ - Compatible with most versions of RHEL/CentOS 6.x, 7.x, Debian, and Ubuntu
 
 ## Installation
 
