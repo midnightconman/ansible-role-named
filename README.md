@@ -7,7 +7,7 @@ This runbook requires that you enable this option "error_on_undefined_vars=False
 [![Build Status](https://travis-ci.org/midnightconman/ansible-role-named.svg?branch=master)](https://travis-ci.org/midnightconman/ansible-role-named)
 
  - Requires Ansible 1.5+
- - Compatible with most versions of RHEL/CentOS 6.x
+ - Compatible with most versions of RHEL/CentOS 6.x, 7.x, Debian, and Ubuntu
 
 ## Installation
 
@@ -17,9 +17,9 @@ $ ansible-galaxy install midnightconman.named
 
 ## Getting started
 
-### Installing BIND (named) on Centos 6+
+### Installing BIND (named)
 
-Installing BIND (named) and all required dependencies on Centos 6+ is very simple and can be done before configuration or individually on it's own: 
+Installing BIND (named) and all required dependencies is very simple and can be done before configuration or individually on it's own: 
 
 #### Install Only
 ``` bash
