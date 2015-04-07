@@ -2,18 +2,24 @@
 - name: Create log Directory
   file:
     path={{ named_conf_logging_file_directory }}
+    owner={{ named_user }}
+    group={{ named_group }}
     state='directory'
   tags: install
 
 - name: Create includes Directory
   file:
     path={{ named_conf_includes_directory }}
+    owner={{ named_user }}
+    group={{ named_group }}
     state='directory'
   tags: install
 
 - name: Create zone masters Directory
   file:
     path={{ named_conf_directory }}/masters
+    owner={{ named_user }}
+    group={{ named_group }}
     state='directory'
   tags: install
 
