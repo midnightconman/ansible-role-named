@@ -3,16 +3,45 @@
 ; {{ ansible_managed }}
 ;
 ; Zone file for {{ item.key | regex_replace('_', '.') }}
-$TTL {{ item.value.ttl or named_conf_zone_ttl }}
-@      {{ item.value.expire or named_conf_zone_expire}}    IN      SOA     {{ item.value.soa or named_conf_zone_soa }} (
-                {{ ansible_date_time.date | regex_replace('-', '') }}{{ ansible_date_time.time | regex_replace('^([0-9]{2}).*$', '\\1') }}	; serial, todays date+todays
-                {{ item.value.refresh or named_conf_zone_refresh }}		; refresh, seconds
-                {{ item.value.retry or named_conf_zone_retry }}		; retry, seconds
-                {{ item.value.expire or named_conf_zone_expire }}		; expire, seconds
-                {{ item.value.expire_min or named_conf_zone_expire_min }} )		; minimum, seconds
 
+{% if item.value.ttl is defined %}
+$TTL {{ item.value.ttl }}
+{% else %}
+$TTL {{ named_conf_zone_ttl }}
+{% endif %}
+
+{% if item.value.expire is defined and item.value.soa is defined %}
+@      {{ item.value.expire }}    IN      SOA     {{ item.value.soa }} (
+{% else %}
+@      {{ named_conf_zone_expire}}    IN      SOA     {{ named_conf_zone_soa }} (
+{% endif %}
+                {{ ansible_date_time.date | regex_replace('-', '') }}{{ ansible_date_time.time | regex_replace('^([0-9]{2}).*$', '\\1') }}	; serial, todays date+todays
+{% if item.value.refresh is defined %}
+                {{ item.value.refresh }}		; refresh, seconds
+{% else %}
+                {{ named_conf_zone_refresh }}   ; refresh, seconds
+{% endif %}
+{% if item.value.retry is defined %}
+                {{ item.value.retry }}		; retry, seconds
+{% else %}
+                {{ named_conf_zone_retry }}     ; retry, seconds
+{% endif %}
+{% if item.value.expire is defined %}
+                {{ item.value.expire }}		; expire, seconds
+{% else %}
+                {{ named_conf_zone_expire }}       ; expire, seconds
+{% endif %}
+{% if item.value.expire_min is defined %}
+                {{ item.value.expire_min }} )		; minimum, seconds
+{% else %}
+                {{ named_conf_zone_expire_min }} )     ; minimum, seconds
+{% endif %}
 {% for nameserver in item.value.nameserver_in %}
-{{ item.key | regex_replace('_', '.') }}. {{ item.value.expire }} IN NS {{ nameserver }}
+{% if item.value.expire is defined %}
+{{ item.key | regex_replace('_', '.') }}. {{ item.value.expire }} IN NS {{ nameserver }}.
+{% else %}
+{{ item.key | regex_replace('_', '.') }}. IN NS {{ nameserver }}.
+{% endif %}
 {% endfor %}
 
 {% for record in item.value.records %}
