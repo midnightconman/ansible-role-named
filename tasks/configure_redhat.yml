@@ -5,7 +5,7 @@
     dest={{ named_conf_file_location }}
     owner={{ named_user }}
     group={{ named_group }}
-    mode='0600'
+    mode={{ named_config_mode | default("0600") }}
   when: ansible_os_family == "RedHat"
   notify: Stop named - RedHat
 
@@ -15,7 +15,7 @@
     dest={{ named_conf_includes_directory }}/included.conf
     owner={{ named_user }}
     group={{ named_group }}
-    mode='0600'
+    mode={{ named_config_mode | default("0600") }}
   when: ansible_os_family == "RedHat"
   notify: Stop named - RedHat
 
@@ -25,7 +25,7 @@
     dest={{ named_conf_directory }}/masters/{{ item.key | regex_replace('_', '.') }}.zone
     owner={{ named_user }}
     group={{ named_group }}
-    mode='0600'
+    mode={{ named_config_mode | default("0600") }}
   with_dict: named_zones
   when: named_zones_create_masters and ansible_os_family == "RedHat"
   notify: Stop named - RedHat

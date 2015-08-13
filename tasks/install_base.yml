@@ -4,6 +4,7 @@
     path={{ named_conf_logging_file_directory }}
     owner={{ named_user }}
     group={{ named_group }}
+    mode={{ named_conf_logging_directory_perms | default("750") }}
     state='directory'
   tags: install
 

@@ -1,0 +1,6 @@
+---
+named_user: root
+named_group: named
+named_config_mode: "0640"
+named_conf_logging_directory_perms: "0770"
+
